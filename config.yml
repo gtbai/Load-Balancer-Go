@@ -1,0 +1,12 @@
+---
+host: localhost
+scheme: 'http'
+servers:
+  - name: Server A
+    scheme: http
+    host: localhost
+    port: 3000
+  - name: Server B
+    scheme: http
+    host: localhost
+    port: 4000
