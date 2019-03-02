@@ -4,9 +4,13 @@ scheme: 'http'
 servers:
   - name: Server A
     scheme: http
-    host: localhost
-    port: 3000
+    host: cp-1
+    port: 1111
   - name: Server B
     scheme: http
-    host: localhost
-    port: 4000
+    host: cp-2
+    port: 2222
+  - name: Server C
+    scheme: http
+    host: cp-3
+    port: 3333

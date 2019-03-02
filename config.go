@@ -61,7 +61,7 @@ func validateFields(proxy Proxy) error {
 
 func setDefaultValues(proxy *Proxy) {
   if proxy.Port == 0 {
-    proxy.Port = 80
+    proxy.Port = 1111
   }
 
   if proxy.Scheme == "" {
