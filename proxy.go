@@ -159,7 +159,8 @@ func (proxy Proxy)attemptServers(w http.ResponseWriter, r *http.Request, ignoreL
   }
 
   // var server = proxy.chooseServer(ignoreList)
-  var server = proxy.roundRobinChooseServer(ignoreList)
+  // var server = proxy.roundRobinChooseServer(ignoreList)
+  var server = proxy.hybridRoundRobinChooseServer(ignoreList, r)
   if server == nil {
     LogErr("Proxy: Could not find an available server at this time")
     http.NotFound(w, r)
