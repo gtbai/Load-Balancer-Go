@@ -1,14 +1,14 @@
 package main
 
 import (
-    "net/http"
-    "net/url"
-    "io/ioutil"
-    "bytes"
-    "io"
-    "strings"
-    "strconv"
-    "math"
+  "bytes"
+  "io"
+  "io/ioutil"
+  "math"
+  "net/http"
+  "net/url"
+  "strconv"
+  "strings"
 )
 
 type Proxy struct {
@@ -75,6 +75,32 @@ func (proxy Proxy)roundRobinChooseServer(ignoreList []string) *Server {
     return &server
   }
   return nil
+}
+
+
+var requestServerMap map[string]*Server = make(map[string]*Server)
+func (proxy Proxy)hybridRoundRobinChooseServer(ignoreList []string, r *http.Request) *Server {
+
+  var path = r.URL.Path
+  targetServer, ok := requestServerMap[path]
+  if (ok) {
+    shouldIgnore := false
+    for _, ignoreServerName := range ignoreList {
+      if targetServer.Name == ignoreServerName {
+        shouldIgnore = true
+        break
+      }
+    }
+    if !shouldIgnore {
+      return targetServer
+    }
+  }
+
+  targetServer = proxy.roundRobinChooseServer(ignoreList)
+  if targetServer != nil{
+    requestServerMap[path] = targetServer
+  }
+  return targetServer
 }
 
 func (proxy Proxy)ReverseProxy(w http.ResponseWriter, r *http.Request, server Server) (int, error){
